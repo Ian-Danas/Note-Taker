@@ -10,9 +10,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+//route to get to the notes html page
 app.get("/notes", (req, res) =>
   res.sendFile(path.join(__dirname, "/public/notes.html"))
 );
+
+//route to get all the data from the db.json file
 app.get("/api/notes", (req, res) => {
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
     if (err) {
@@ -24,6 +27,7 @@ app.get("/api/notes", (req, res) => {
   });
 });
 
+//route to post a new note and add it to the db.json file
 app.post("/api/notes", (req,res)=>{
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
         if (err) {
@@ -47,6 +51,7 @@ app.post("/api/notes", (req,res)=>{
       });
 });
 
+//route to delete to notes from the db.json
 app.delete("/api/notes/:id",(req,res)=>{
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
         if (err) {
@@ -73,6 +78,7 @@ app.delete("/api/notes/:id",(req,res)=>{
     })
 })
 
+//route to get the homepage if they go to anyroute that isnt specified
 app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/public/index.html"))
 );
